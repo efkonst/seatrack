@@ -23,16 +23,16 @@ public class WorkerRunnable implements Runnable{
             OutputStream output = clientSocket.getOutputStream();
             long time = System.currentTimeMillis();
 
-    System.out.println("GOT DATA");
+//    System.out.println("GOT DATA");
     BufferedReader br =new BufferedReader(new InputStreamReader(input));
     String got_data_from_gps= br.readLine();
     String[] got_1 = got_data_from_gps.split(","); 
 
-    System.out.println(got_1[1]+":"+got_1[3]);
+//    System.out.println(got_1[1]+":"+got_1[3]);
     output.write(("*HQ,"+got_1[1]+",D1,"+got_1[3]+",30,1#\r\n").getBytes());
    while(true){
       got_data_from_gps= br.readLine();
-      System.out.println(got_data_from_gps);
+//      System.out.println(got_data_from_gps);
     output.write(("\r\n").getBytes());
      }
 //        output.close();
@@ -42,7 +42,7 @@ public class WorkerRunnable implements Runnable{
 //            System.out.println("Request processed: " + time);
         } catch (IOException e) {
             //report exception somewhere.
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 }

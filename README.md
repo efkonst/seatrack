@@ -1,1 +1,2 @@
 # seatrack
+Server fot GPS

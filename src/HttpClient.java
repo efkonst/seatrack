@@ -11,9 +11,9 @@ public class HttpClient {
 	private final String USER_AGENT = "Mozilla/5.0";
 
 	// HTTP GET request
-	public void sendGet() throws Exception {
+	public void sendGet(String nmea) throws Exception {
 	
-		String url = "http://gps-ekon.rhcloud.com/gps/client.php?nmea=*HQ,000000000000001,V1,215125,A,4047.98644,N,02202.70738,E,18.44,60,210316,EFE7FBFF"+"%23";
+		String url = "http://gps-ekon.rhcloud.com/gps/client.php?nmea="+nmea;
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();

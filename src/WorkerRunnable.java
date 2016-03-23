@@ -38,7 +38,7 @@ public class WorkerRunnable implements Runnable {
 					HttpClient htclient = new HttpClient();
 
 					try {
-						htclient.sendGet(got_data_from_gps.substring(0, got_data_from_gps.length() - 1));
+						htclient.sendGet(got_data_from_gps.substring(0, got_data_from_gps.length() - 1)+"%23");
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

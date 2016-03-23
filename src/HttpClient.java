@@ -18,6 +18,7 @@ public class HttpClient {
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
+		
 		// optional default is GET
 		con.setRequestMethod("GET");
 

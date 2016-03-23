@@ -37,6 +37,7 @@ public class WorkerRunnable implements Runnable {
 				if (!got_data_from_gps.contains("XT")) {
 					HttpClient htclient = new HttpClient();
 
+					
 					try {
 						htclient.sendGet(got_data_from_gps.substring(0, got_data_from_gps.length() - 1)+"%23");
 					} catch (Exception e) {

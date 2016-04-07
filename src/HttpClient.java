@@ -13,7 +13,7 @@ public class HttpClient {
 	// HTTP GET request
 	public void sendGet(String nmea) throws Exception {
 	
-		String url = "http://gps-ekon.rhcloud.com/gps/client.php?nmea="+nmea;
+		String url = "http://demo-ekon.rhcloud.com/gps/client.php?telkt="+nmea;
 
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();

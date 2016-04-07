@@ -1,5 +1,8 @@
+package tests;
+
 import java.net.*;
 import java.io.*;
+
 
 class RunnableDemo implements Runnable {
    private Thread t;

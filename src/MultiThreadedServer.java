@@ -1,6 +1,9 @@
 import java.net.ServerSocket;
+
 import java.net.Socket;
 import java.io.IOException;
+import java.util.*;
+import java.util.logging.*;
 
 public class MultiThreadedServer implements Runnable {
 
@@ -8,9 +11,33 @@ public class MultiThreadedServer implements Runnable {
 	protected ServerSocket serverSocket = null;
 	protected boolean isStopped = false;
 	protected Thread runningThread = null;
+	static Logger logger;
+	public volatile List<String> validIMEIs;
 
 	public MultiThreadedServer(int port) {
+		logger = Logger.getLogger("MyLog");
+
 		this.serverPort = port;
+		this.validIMEIs = new ArrayList<String>();
+		logger = Logger.getLogger("MyLog");
+		FileHandler fh;
+
+		try {
+
+			// This block configure the logger with handler and formatter
+			fh = new FileHandler("MyLogFile.log");
+			logger.addHandler(fh);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+
+			// the following statement is used to log any messages
+			logger.info("My first log");
+
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
@@ -18,7 +45,7 @@ public class MultiThreadedServer implements Runnable {
 			this.runningThread = Thread.currentThread();
 		}
 		openServerSocket();
-		System.out.println("Server Started");
+		logger.info("Server Started");
 		while (!isStopped()) {
 			Socket clientSocket = null;
 			try {
@@ -30,7 +57,8 @@ public class MultiThreadedServer implements Runnable {
 				}
 				throw new RuntimeException("Error accepting client connection", e);
 			}
-			new Thread(new WorkerRunnable(clientSocket, "Multithreaded Server")).start();
+			logger.info("Starting Thread");
+			new Thread(new Telktonika(clientSocket, "Multithreaded Server")).start();
 		}
 		System.out.println("Server Stopped.");
 	}
@@ -52,7 +80,7 @@ public class MultiThreadedServer implements Runnable {
 		try {
 			this.serverSocket = new ServerSocket(this.serverPort);
 		} catch (IOException e) {
-			throw new RuntimeException("Cannot open port 8080", e);
+			throw new RuntimeException("Cannot open port " + this.serverPort, e);
 		}
 	}
 

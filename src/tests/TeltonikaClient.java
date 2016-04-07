@@ -49,7 +49,7 @@ class TeltonikaClientRunnable implements Runnable {
 		try {
 			try {
 				String sentence;
-				Socket clientSocket = new Socket("127.0.0.1", 8888);
+				Socket clientSocket = new Socket("ekonhome.ddns.net", 8888);
 				// DataOutputStream outToServer = new
 				// DataOutputStream(clientSocket.getOutputStream());
 				// BufferedReader inFromServer = new BufferedReader(new

@@ -145,7 +145,6 @@ public class TeltonikaClient {
 		   return c;
 		}
 
-	
 	public static void main(String args[]) {
 		
 

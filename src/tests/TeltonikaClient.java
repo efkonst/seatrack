@@ -9,6 +9,9 @@ import java.io.OutputStream;
 import java.net.*;
 import java.util.Arrays;
 
+import com.sun.jmx.snmp.Timestamp;
+
+
 class TeltonikaClientRunnable implements Runnable {
 	private Thread t;
 	private String threadName;
@@ -107,11 +110,63 @@ class TeltonikaClientRunnable implements Runnable {
 }
 
 public class TeltonikaClient {
-	public static void main(String args[]) {
 
-		for (int i = 0; i < 1; i++) {
-			new TeltonikaClientRunnable("Thread-" + i).start();
+	
+	
+	
+	
+	final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+	public static String bytesToHex(byte[] bytes) {
+		char[] hexChars = new char[bytes.length * 2];
+		for (int j = 0; j < bytes.length; j++) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = hexArray[v >>> 4];
+			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+		}
+		return new String(hexChars);
+	}
+	
+	public static byte[] hexStringToByteArray(String s) {
+		int len = s.length();
+		byte[] data = new byte[len / 2];
+		for (int i = 0; i < len; i += 2) {
+			data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
+		}
+		return data;
+	}
+	
+	public static byte[] concat(byte[] a, byte[] b) {
+		   int aLen = a.length;
+		   int bLen = b.length;
+		   byte[] c= new byte[aLen+bLen];
+		   System.arraycopy(a, 0, c, 0, aLen);
+		   System.arraycopy(b, 0, c, aLen, bLen);
+		   return c;
 		}
 
+	
+	public static void main(String args[]) {
+
+//		for (int i = 0; i < 1; i++) {
+//			new TeltonikaClientRunnable("Thread-" + i).start();
+//		}
+		
+		String imsi="000000000000100";
+		byte[] imsibyte = imsi.getBytes();
+		byte[] he={0x00,(byte)imsi.length() };
+		System.out.println(bytesToHex(concat(he,imsibyte)));
+		
+	//	java.util.Date date= new java.util.Date();
+		
+		 byte[] timestamp= (System.currentTimeMillis()+"").getBytes();
+		 //System.out.println(());
+
+
+		
 	}
+	
+	
+	
+	
 }

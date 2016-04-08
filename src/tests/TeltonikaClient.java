@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.net.*;
 import java.util.Arrays;
 
-import com.sun.jmx.snmp.Timestamp;
 
 
 class TeltonikaClientRunnable implements Runnable {
@@ -159,12 +158,52 @@ public class TeltonikaClient {
 		
 	//	java.util.Date date= new java.util.Date();
 		
-		 byte[] timestamp= (System.currentTimeMillis()+"").getBytes();
-		 //System.out.println(());
+		 
+		 byte[] timestamp=longToBytes(System.currentTimeMillis());
+		 byte[] prio=new byte[1];
+		 prio[0] =  0;
+		 
+		 byte[] lon=intToBytes(253032016);
+		 byte[] lat=intToBytes(547146368);
+		 byte[] alt=shortToBytes((short)111);
+		 byte[] head=shortToBytes((short)214);
+		 byte[] sat=new byte[1];
+		 sat[0] =  4;
+		 byte[] speed=shortToBytes((short)4);
+		 byte[] iod=new byte[9];
+		 byte[] crc=new byte[2];
+		 System.out.println(bytesToHex((sat)));
 
 
 		
 	}
+	
+	public static byte[] longToBytes(long l) {
+	    byte[] result = new byte[8];
+	    for (int i = 7; i >= 0; i--) {
+	        result[i] = (byte)(l & 0xFF);
+	        l >>= 8;
+	    }
+	    return result;
+	}
+	
+	public static final byte[] intToBytes(int value) {
+	    return new byte[] {
+	            (byte)(value >>> 24),
+	            (byte)(value >>> 16),
+	            (byte)(value >>> 8),
+	            (byte)value};
+	}
+	
+	public static final byte[] shortToBytes(short value) {
+	    return new byte[] {
+	            (byte)(value >>> 8),
+	            (byte)value};
+	}
+
+
+	
+
 	
 	
 	

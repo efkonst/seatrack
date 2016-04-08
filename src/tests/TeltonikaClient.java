@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.*;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 
@@ -159,22 +161,45 @@ public class TeltonikaClient {
 	//	java.util.Date date= new java.util.Date();
 		
 		 
-		 byte[] timestamp=longToBytes(System.currentTimeMillis());
+//		 byte[] timestamp=longToBytes(System.currentTimeMillis());
+		 byte[] timestamp=longToBytes(1460147296000L);
+
 		 byte[] prio=new byte[1];
 		 prio[0] =  0;
 		 
-		 byte[] lon=intToBytes(253032016);
-		 byte[] lat=intToBytes(547146368);
-		 byte[] alt=shortToBytes((short)111);
-		 byte[] head=shortToBytes((short)214);
+		 byte[] lon=intToBytes(237631930);
+		 byte[] lat=intToBytes(380461186);
+		 byte[] alt=shortToBytes((short)169);
+		 byte[] head=shortToBytes((short)163);
 		 byte[] sat=new byte[1];
-		 sat[0] =  4;
-		 byte[] speed=shortToBytes((short)4);
-		 byte[] iod=new byte[9];
-		 byte[] crc=new byte[2];
-		 System.out.println(bytesToHex((sat)));
+		 sat[0] =  13;
+		 byte[] speed=shortToBytes((short)0);
+		 byte[] iod=new byte[6];
+//		 iod[6]=1;
+		
+		 byte[] header={0x08,0x01};
+		 byte[] footer={0x01};
+//		 byte[] crcempty={(byte) 0x00,(byte) 0x00,(byte) 0x00,(byte) 0x00};
 
-
+		 byte[] msg0=concat(header,timestamp);
+		 
+		 byte[] msg1=concat(msg0,prio);
+		 byte[] msg2=concat(msg1,lon);
+		 byte[] msg3=concat(msg2,lat);
+		 byte[] msg4=concat(msg3,alt);
+		 byte[] msg5=concat(msg4,head);
+		 byte[] msg6=concat(msg5,sat);
+		 byte[] msg7=concat(msg6,speed);
+		 byte[] msg8=concat(msg7,iod);
+		 byte[] msg9=concat(msg8,footer);
+		 
+		int crcgen = getCrc16(msg9, 0, msg9.length, 0xA001, 0);
+		byte[] crc= intToBytes(crcgen);
+		byte[] msg=concat(msg9,crc);
+		 
+		 
+		 System.out.println(bytesToHex(msg));
+		 
 		
 	}
 	
@@ -201,6 +226,26 @@ public class TeltonikaClient {
 	            (byte)value};
 	}
 
+	public synchronized static int getCrc16(byte[] buffer, int offset, int bufLen, int polynom, int preset) {
+		preset &= 0xFFFF;
+		polynom &= 0xFFFF;
+		int crc = preset;
+		for (int i = 0; i < bufLen; i++) {
+			int data = buffer[i + offset] & 0xFF;
+			crc ^= data;
+			for (int j = 0; j < 8; j++) {
+				if ((crc & 0x0001) != 0) {
+					crc = (crc >> 1) ^ polynom;
+				} else {
+					crc = crc >> 1;
+				}
+			}
+		}
+		return crc & 0xFFFF;
+	}
+	public static byte[] my_int_to_bb_be(int myInteger) {
+		return ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(myInteger).array();
+	}
 
 	
 

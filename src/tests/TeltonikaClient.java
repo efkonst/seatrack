@@ -18,31 +18,8 @@ class TeltonikaClientRunnable implements Runnable {
 	private String threadName;
 	static int seq = 0;
 
-	byte[] imeipacket = { 0x00, 0x0F, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31,
-			0x30, 0x30 };
-	byte[] message = { (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0, (byte) 0xA8, (byte) 0x08,
-			(byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x13, (byte) 0xfc, (byte) 0x20, (byte) 0x8d,
-			(byte) 0xff, (byte) 0x00, (byte) 0x0f, (byte) 0x14, (byte) 0xf6, (byte) 0x50, (byte) 0x20, (byte) 0x9c,
-			(byte) 0xca, (byte) 0x80, (byte) 0x00, (byte) 0x6f, (byte) 0x00, (byte) 0xd6, (byte) 0x04, (byte) 0x00,
-			(byte) 0x04, (byte) 0x00, (byte) 0x04, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x15, (byte) 0x03,
-			(byte) 0x16, (byte) 0x03, (byte) 0x00, (byte) 0x01, (byte) 0x46, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-			(byte) 0x5d, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x13, (byte) 0xfc, (byte) 0x17,
-			(byte) 0x61, (byte) 0x0b, (byte) 0x00, (byte) 0x0f, (byte) 0x14, (byte) 0xff, (byte) 0xe0, (byte) 0x20,
-			(byte) 0x9c, (byte) 0xc5, (byte) 0x80, (byte) 0x00, (byte) 0x6e, (byte) 0x00, (byte) 0xc0, (byte) 0x05,
-			(byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x04, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x15,
-			(byte) 0x03, (byte) 0x16, (byte) 0x01, (byte) 0x00, (byte) 0x01, (byte) 0x46, (byte) 0x00, (byte) 0x00,
-			(byte) 0x01, (byte) 0x5e, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x13, (byte) 0xfc,
-			(byte) 0x28, (byte) 0x49, (byte) 0x45, (byte) 0x00, (byte) 0x0f, (byte) 0x15, (byte) 0x0f, (byte) 0x00,
-			(byte) 0x20, (byte) 0x9c, (byte) 0xd2, (byte) 0x00, (byte) 0x00, (byte) 0x95, (byte) 0x01, (byte) 0x08,
-			(byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x04, (byte) 0x03, (byte) 0x01, (byte) 0x01,
-			(byte) 0x15, (byte) 0x00, (byte) 0x16, (byte) 0x03, (byte) 0x00, (byte) 0x01, (byte) 0x46, (byte) 0x00,
-			(byte) 0x00, (byte) 0x01, (byte) 0x5d, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x13,
-			(byte) 0xfc, (byte) 0x26, (byte) 0x7c, (byte) 0x5b, (byte) 0x00, (byte) 0x0f, (byte) 0x15, (byte) 0x0a,
-			(byte) 0x50, (byte) 0x20, (byte) 0x9c, (byte) 0xcc, (byte) 0xc0, (byte) 0x00, (byte) 0x93, (byte) 0x00,
-			(byte) 0x68, (byte) 0x04, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x04, (byte) 0x03, (byte) 0x01,
-			(byte) 0x01, (byte) 0x15, (byte) 0x00, (byte) 0x16, (byte) 0x03, (byte) 0x00, (byte) 0x01, (byte) 0x46,
-			(byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x5b, (byte) 0x00, (byte) 0x04, (byte) 0x1F, (byte) 0x2c };
 
+	
 	TeltonikaClientRunnable(String name) {
 		threadName = name;
 		// System.out.println("Creating " + threadName );
@@ -148,56 +125,9 @@ public class TeltonikaClient {
 
 	public static void main(String args[]) {
 		
+		byte[] msg=msg_gen();
 
-//		for (int i = 0; i < 1; i++) {
-//			new TeltonikaClientRunnable("Thread-" + i).start();
-//		}
 		
-		String imsi="000000000000100";
-		byte[] imsibyte = imsi.getBytes();
-		byte[] he={0x00,(byte)imsi.length() };
-		System.out.println(bytesToHex(concat(he,imsibyte)));
-		
-	//	java.util.Date date= new java.util.Date();
-		
-		 
-//		 byte[] timestamp=longToBytes(System.currentTimeMillis());
-		 byte[] timestamp=longToBytes(1460147296000L);
-
-		 byte[] prio=new byte[1];
-		 prio[0] =  0;
-		 
-		 byte[] lon=intToBytes(237631930);
-		 byte[] lat=intToBytes(380461186);
-		 byte[] alt=shortToBytes((short)169);
-		 byte[] head=shortToBytes((short)163);
-		 byte[] sat=new byte[1];
-		 sat[0] =  13;
-		 byte[] speed=shortToBytes((short)0);
-		 byte[] iod=new byte[6];
-//		 iod[6]=1;
-		
-		 byte[] header={0x08,0x01};
-		 byte[] footer={0x01};
-//		 byte[] crcempty={(byte) 0x00,(byte) 0x00,(byte) 0x00,(byte) 0x00};
-
-		 byte[] msg0=concat(header,timestamp);
-		 
-		 byte[] msg1=concat(msg0,prio);
-		 byte[] msg2=concat(msg1,lon);
-		 byte[] msg3=concat(msg2,lat);
-		 byte[] msg4=concat(msg3,alt);
-		 byte[] msg5=concat(msg4,head);
-		 byte[] msg6=concat(msg5,sat);
-		 byte[] msg7=concat(msg6,speed);
-		 byte[] msg8=concat(msg7,iod);
-		 byte[] msg9=concat(msg8,footer);
-		 
-		int crcgen = getCrc16(msg9, 0, msg9.length, 0xA001, 0);
-		byte[] crc= intToBytes(crcgen);
-		byte[] msg=concat(msg9,crc);
-		 
-		 
 		 System.out.println(bytesToHex(msg));
 		 
 		
@@ -247,7 +177,54 @@ public class TeltonikaClient {
 		return ByteBuffer.allocate(4).order(ByteOrder.BIG_ENDIAN).putInt(myInteger).array();
 	}
 
-	
+	public static byte[] gen_msg(){
+		String imsi="000000000000100";
+		byte[] imsibyte = imsi.getBytes();
+		byte[] he={0x00,(byte)imsi.length() };
+		System.out.println(bytesToHex(concat(he,imsibyte)));
+		
+	//	java.util.Date date= new java.util.Date();
+		
+		 
+//		 byte[] timestamp=longToBytes(System.currentTimeMillis());
+		 byte[] timestamp=longToBytes(1460147296000L);
+
+		 byte[] prio=new byte[1];
+		 prio[0] =  0;
+		 
+		 byte[] lon=intToBytes(237631930);
+		 byte[] lat=intToBytes(380461186);
+		 byte[] alt=shortToBytes((short)169);
+		 byte[] head=shortToBytes((short)163);
+		 byte[] sat=new byte[1];
+		 sat[0] =  13;
+		 byte[] speed=shortToBytes((short)0);
+		 byte[] iod=new byte[6];
+//		 iod[6]=1;
+		
+		 byte[] header={0x08,0x01};
+		 byte[] footer={0x01};
+//		 byte[] crcempty={(byte) 0x00,(byte) 0x00,(byte) 0x00,(byte) 0x00};
+
+		 byte[] msg0=concat(header,timestamp);
+		 
+		 byte[] msg1=concat(msg0,prio);
+		 byte[] msg2=concat(msg1,lon);
+		 byte[] msg3=concat(msg2,lat);
+		 byte[] msg4=concat(msg3,alt);
+		 byte[] msg5=concat(msg4,head);
+		 byte[] msg6=concat(msg5,sat);
+		 byte[] msg7=concat(msg6,speed);
+		 byte[] msg8=concat(msg7,iod);
+		 byte[] msg9=concat(msg8,footer);
+		 
+		int crcgen = getCrc16(msg9, 0, msg9.length, 0xA001, 0);
+		byte[] crc= intToBytes(crcgen);
+		byte[] msg=concat(msg9,crc);
+		 
+		return msg;
+		 
+	}
 
 	
 	

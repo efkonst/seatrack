@@ -18,11 +18,14 @@ class TeltonikaClientRunnable implements Runnable {
 	private String threadName;
 	static int seq = 0;
 	byte[] imeipacket = { 0x00, 0x0F, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x31,0x30, 0x30 };
-
+	int initlon;
+	int initlat;
 
 	
-	TeltonikaClientRunnable(String name) {
+	TeltonikaClientRunnable(String name,int initlon,int initlat) {
 		threadName = name;
+		this.initlon=initlon;
+		this.initlat=initlat;
 		// System.out.println("Creating " + threadName );
 	}
 
@@ -31,12 +34,12 @@ class TeltonikaClientRunnable implements Runnable {
 		try {
 			try {
 				String sentence;
-				Socket clientSocket = new Socket("ekonhome.ddns.net", 8888);
+				Socket clientSocket = new Socket("127.0.0.1", 8888);
 				InputStream input = clientSocket.getInputStream();
 				OutputStream output = clientSocket.getOutputStream();
 
-				int initlon=597631930;
-				int initlat=380461186;
+	//			int initlon=237631930;
+	//			int initlat=380461186;
 				
 				seq++;
 				// semd toserver
@@ -105,12 +108,20 @@ public class TeltonikaClient {
 	}
 	
 	public static void main(String args[]) {
-		
-		byte[] msg=gen_msg(237631930,380461186);
+	int initlon=-237631930;
+	int initlat=380461186;
+
+	if( args.length==2){	
+	initlon=Integer.parseInt(args[0]);
+	initlat=Integer.parseInt(args[1]);
+	}
+
+	
+		byte[] msg=gen_msg(initlon,initlat);
 		System.out.println(bytesToHex(msg));
 		
 		for (int i = 0; i < 1; i++) 
-			 new TeltonikaClientRunnable("Thread-" + i).start();
+			 new TeltonikaClientRunnable("Thread-" + i,initlon,initlat).start();
 	}
 	
 	public static byte[] longToBytes(long l) {

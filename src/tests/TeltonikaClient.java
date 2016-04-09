@@ -35,8 +35,8 @@ class TeltonikaClientRunnable implements Runnable {
 				InputStream input = clientSocket.getInputStream();
 				OutputStream output = clientSocket.getOutputStream();
 
-				int initlon=-597631930;
-				int initlat=-380461186;
+				int initlon=597631930;
+				int initlat=380461186;
 				
 				seq++;
 				// semd toserver

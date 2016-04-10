@@ -110,17 +110,21 @@ public class TeltonikaClient {
 	public static void main(String args[]) {
 	int initlon=-237631930;
 	int initlat=380461186;
+	int users=1;
 
-	if( args.length==2){	
+	
+	if( args.length==3){	
 	initlon=Integer.parseInt(args[0]);
 	initlat=Integer.parseInt(args[1]);
+	users=Integer.parseInt(args[2]);
+
 	}
 
 	
 		byte[] msg=gen_msg(initlon,initlat);
 		System.out.println(bytesToHex(msg));
 		
-		for (int i = 0; i < 1; i++) 
+		for (int i = 0; i < users; i++) 
 			 new TeltonikaClientRunnable("Thread-" + i,initlon,initlat).start();
 	}
 	

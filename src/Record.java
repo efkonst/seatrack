@@ -7,8 +7,8 @@ public class Record {
 	int heading;
 	int sats;
 	int speed;
-
-	Record(long t, int pr, int lon, int lat, int alt, int head, int sat, int spd) {
+	String Data;
+	Record(long t, int pr, int lon, int lat, int alt, int head, int sat, int spd,String str) {
 		this.timestamp = t;
 		this.priority = pr;
 		this.longitude = lon;
@@ -17,6 +17,7 @@ public class Record {
 		this.heading = head;
 		this.sats = sat;
 		this.speed = spd;
+		this.Data = str;
 
 	}
 
@@ -32,7 +33,7 @@ public class Record {
   			   "speed  : "+this.speed+"\r\n";
 	*/
 	
-	return this.timestamp+","+this.longitude/10000000+","+this.lattitude/10000000+","+this.altitude+","+this.heading+","+this.sats+","+this.speed;
+	return this.timestamp+","+this.longitude/10000000+","+this.lattitude/10000000+","+this.altitude+","+this.heading+","+this.sats+","+this.speed+","+this.Data;
 	
 	}
 	

@@ -94,7 +94,10 @@ public class FM1120 {
 		int heading = getShort(Arrays.copyOfRange(record, 19, 21), 0);
 		int sats = record[21];
 		int speed = getShort(Arrays.copyOfRange(record, 22, 24), 0);
-		return new Record(timestamp, priority, longitude, lattitude, altitude, heading, sats, speed);
+		byte[] data=Arrays.copyOfRange(record, 24, record.length);
+//		MultiThreadedServer.logger.info("********"+bytesToHex(data));
+
+		return new Record(timestamp, priority, longitude, lattitude, altitude, heading, sats, speed,bytesToHex(data));
 
 	}
 

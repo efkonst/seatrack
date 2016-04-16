@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.net.*;
-
 /**
  */
 public class Telktonika implements Runnable {

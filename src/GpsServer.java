@@ -12,7 +12,6 @@ public class GpsServer {
 
 		MultiThreadedServer server = new MultiThreadedServer(8888);
 		new Thread(server).start();
-		
 /*		while(true){
 		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
 		

@@ -66,7 +66,7 @@ public class Telktonika implements Runnable {
 
 		} catch (IOException e) {
 			System.out.println(e);
-
+			return;
 		}
 	}
 

@@ -18,8 +18,10 @@ public class FM1120 {
 		int records = this.data[1];
 		byte[] onlyrec = Arrays.copyOfRange(this.data, 2, this.data.length);
 
+		int bytesinrec=32;
+
 		for (int i = 0; i < records; i++) {
-			byte[] r1 = Arrays.copyOfRange(onlyrec, (i * 30), ((i + 1) * 30));
+			byte[] r1 = Arrays.copyOfRange(onlyrec, (i * bytesinrec), ((i + 1) * bytesinrec));
 			System.out.println(bytesToHex(r1));
 			System.out.println(parseRecord(r1));
 		}
@@ -29,13 +31,14 @@ public class FM1120 {
 	public FM1120(byte[] data,String imei) {
 		this.data = data;
 		// parseData();
+		int bytesinrec=32;
 		codec_id = this.data[0];
-
+	
 		this.recordcount =this.data[1];
 		byte[] onlyrec = Arrays.copyOfRange(this.data, 2, this.data.length);
 
 		for (int i = 0; i < this.recordcount; i++) {
-			byte[] r1 = Arrays.copyOfRange(onlyrec, (i * 30), ((i + 1) * 30));
+			byte[] r1 = Arrays.copyOfRange(onlyrec, (i * bytesinrec), ((i + 1) * bytesinrec));
 //			System.out.println(bytesToHex(r1));
 
 			String record=parseRecord(r1).toString();

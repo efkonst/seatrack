@@ -24,7 +24,7 @@ public class Telktonika implements Runnable {
 
 	public void run() {
 		try {
-
+                        clientSocket.setSoTimeout(120000);
 			InputStream input = clientSocket.getInputStream();
 			OutputStream output = clientSocket.getOutputStream();
 			long time = System.currentTimeMillis();
@@ -45,12 +45,16 @@ public class Telktonika implements Runnable {
 
 				while (waitopen) {
 					byte[] newdata = readBytes(input);
+					if(newdata.length==0)
+					{
+					 waitopen=false;
+					 clientSocket.close();
+					}
+
 					MultiThreadedServer.logger.info(bytesToHex(newdata));
 
 					int gotrecords = parseTCPTeltonika(newdata);
 					output.write(my_int_to_bb_be(gotrecords));
-
-
 				}
 
 				output.close();
@@ -64,6 +68,8 @@ public class Telktonika implements Runnable {
 			}
 
 		} catch (IOException e) {
+                     MultiThreadedServer.logger.info("Exception " +e.toString());
+
 			System.out.println(e);
 			return;
 		}

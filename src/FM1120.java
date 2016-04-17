@@ -5,6 +5,7 @@ public class FM1120 {
 	String imei;
 	byte[] data;
 	byte codec_id;
+	int records;
 	public int recordcount=0;
 
 	public FM1120() {
@@ -15,7 +16,7 @@ public class FM1120 {
 		// parseData();
 		codec_id = this.data[0];
 
-		int records = this.data[1];
+		records = this.data[1];
 		byte[] onlyrec = Arrays.copyOfRange(this.data, 2, this.data.length);
 
 		int bytesinrec=32;

@@ -10,13 +10,15 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 import java.net.*;
+
 /**
  */
 public class Telktonika implements Runnable {
 
 	protected Socket clientSocket = null;
 	protected String serverText = null;
-	String imei="";
+	String imei = "";
+
 	public Telktonika(Socket clientSocket, String serverText) {
 		this.clientSocket = clientSocket;
 		this.serverText = serverText;
@@ -24,7 +26,7 @@ public class Telktonika implements Runnable {
 
 	public void run() {
 		try {
-                        clientSocket.setSoTimeout(120000);
+			clientSocket.setSoTimeout(120000);
 			InputStream input = clientSocket.getInputStream();
 			OutputStream output = clientSocket.getOutputStream();
 			long time = System.currentTimeMillis();
@@ -40,35 +42,30 @@ public class Telktonika implements Runnable {
 
 			if (validIMEI(imei)) {
 				output.write(1);
-				// acceepting data forever?
-				// while (true) {
 
 				while (waitopen) {
 					byte[] newdata = readBytes(input);
-					if(newdata.length==0)
-					{
-					 waitopen=false;
-					 clientSocket.close();
+
+					if (newdata.length == 0) {
+						waitopen = false;
+						MultiThreadedServer.logger.info("closinng connection to "+clientSocket.getRemoteSocketAddress().toString()+" 0 bytes read");
+					} else {
+						MultiThreadedServer.logger.info(bytesToHex(newdata));
+						int gotrecords = parseTCPTeltonika(newdata);
+						output.write(my_int_to_bb_be(gotrecords));
 					}
-
-					MultiThreadedServer.logger.info(bytesToHex(newdata));
-
-					int gotrecords = parseTCPTeltonika(newdata);
-					output.write(my_int_to_bb_be(gotrecords));
 				}
 
 				output.close();
 				input.close();
 				clientSocket.close();
-				// }
-
 			} else {
 				output.write(0);
 				return;
 			}
 
 		} catch (IOException e) {
-                     MultiThreadedServer.logger.info("Exception " +e.toString());
+			MultiThreadedServer.logger.info("Exception " + e.toString());
 
 			System.out.println(e);
 			return;
@@ -82,7 +79,7 @@ public class Telktonika implements Runnable {
 		int datacrc = getInt(Arrays.copyOfRange(tcpdata, tcpdata.length - 4, tcpdata.length), 0);
 
 		System.out.println(crcgen + ":" + datacrc);
-		FM1120 fm1120 = new FM1120(nocrc,this.imei);
+		FM1120 fm1120 = new FM1120(nocrc, this.imei);
 
 		return fm1120.recordcount;
 
